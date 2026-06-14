@@ -71,7 +71,8 @@
                                            Foreground="{StaticResource TextPrimaryBrush}"
                                            FontSize="12" FontWeight="SemiBold" FontFamily="Segoe UI"
                                            TextTrimming="CharacterEllipsis"/>
-                                <TextBlock Text="{Binding FpsCap}" Foreground="{StaticResource TextMutedBrush}"
+                                <TextBlock Text="{Binding ActivePresetBadge}"
+                                           Foreground="{StaticResource TextMutedBrush}"
                                            FontSize="12" FontFamily="Segoe UI" Margin="0,2,0,0"/>
                             </StackPanel>
                         </Border>

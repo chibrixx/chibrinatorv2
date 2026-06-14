@@ -7,6 +7,7 @@
         <converters:BoolToVisibilityConverter   x:Key="BoolToVisConverter"/>
         <converters:PresetToBadgeBrushConverter x:Key="PresetBadgeBrush"/>
         <converters:BoolToColorConverter        x:Key="BoolToColorConverter"/>
+        <converters:BoolToDetectedStringConverter x:Key="BoolToDetectedStringConverter"/>
     </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -76,17 +77,21 @@
                                FontSize="13" FontFamily="Segoe UI"
                                Margin="0,8,0,0" TextWrapping="Wrap"/>
 
+                    <!-- FPS note replacing the old FPS cap badge -->
                     <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="1"
                             VerticalAlignment="Center" Background="{StaticResource BgDeepBrush}"
                             BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
-                            CornerRadius="8" Padding="16,10">
+                            CornerRadius="8" Padding="14,10" MaxWidth="130">
                         <StackPanel HorizontalAlignment="Center">
                             <TextBlock Text="FPS CAP" Foreground="{StaticResource TextMutedBrush}"
                                        FontSize="9" FontWeight="SemiBold" FontFamily="Segoe UI"
                                        HorizontalAlignment="Center"/>
-                            <TextBlock Text="{Binding FpsCap}" Foreground="{StaticResource AccentBrush}"
-                                       FontSize="20" FontWeight="Bold" FontFamily="Segoe UI"
-                                       HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                            <TextBlock Text="In-game" Foreground="{StaticResource AccentBrush}"
+                                       FontSize="15" FontWeight="Bold" FontFamily="Segoe UI"
+                                       HorizontalAlignment="Center" Margin="0,4,0,2"/>
+                            <TextBlock Text="Settings → ☰" Foreground="{StaticResource TextMutedBrush}"
+                                       FontSize="10" FontFamily="Segoe UI"
+                                       HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                 </Grid>
@@ -111,7 +116,7 @@
                         <TextBlock Text="🥔" FontSize="22" HorizontalAlignment="Center"/>
                         <TextBlock Text="Ultra Potato" Foreground="#F59E0B" FontSize="12" FontWeight="Bold"
                                    FontFamily="Segoe UI" HorizontalAlignment="Center" Margin="0,6,0,0"/>
-                        <TextBlock Text="Max FPS" Foreground="{StaticResource TextMutedBrush}"
+                        <TextBlock Text="Max performance" Foreground="{StaticResource TextMutedBrush}"
                                    FontSize="11" FontFamily="Segoe UI" HorizontalAlignment="Center" Margin="0,3,0,0"/>
                     </StackPanel>
                 </Border>
@@ -124,7 +129,7 @@
                         <TextBlock Text="⚡" FontSize="22" HorizontalAlignment="Center"/>
                         <TextBlock Text="Competitive" Foreground="#EF4444" FontSize="12" FontWeight="Bold"
                                    FontFamily="Segoe UI" HorizontalAlignment="Center" Margin="0,6,0,0"/>
-                        <TextBlock Text="144 FPS" Foreground="{StaticResource TextMutedBrush}"
+                        <TextBlock Text="High performance" Foreground="{StaticResource TextMutedBrush}"
                                    FontSize="11" FontFamily="Segoe UI" HorizontalAlignment="Center" Margin="0,3,0,0"/>
                     </StackPanel>
                 </Border>
@@ -137,7 +142,7 @@
                         <TextBlock Text="⚖️" FontSize="22" HorizontalAlignment="Center"/>
                         <TextBlock Text="Balanced" Foreground="#10B981" FontSize="12" FontWeight="Bold"
                                    FontFamily="Segoe UI" HorizontalAlignment="Center" Margin="0,6,0,0"/>
-                        <TextBlock Text="60 FPS" Foreground="{StaticResource TextMutedBrush}"
+                        <TextBlock Text="Light tweaks" Foreground="{StaticResource TextMutedBrush}"
                                    FontSize="11" FontFamily="Segoe UI" HorizontalAlignment="Center" Margin="0,3,0,0"/>
                     </StackPanel>
                 </Border>
@@ -231,7 +236,7 @@
                                    FontSize="9" FontWeight="SemiBold" FontFamily="Segoe UI" Margin="0,0,0,6"/>
                         <TextBlock Foreground="{StaticResource TextSecondaryBrush}" FontSize="11"
                                    FontFamily="Segoe UI" TextWrapping="Wrap">
-                            Chibinator writes only to Roblox's official ClientAppSettings.json using allowlisted FastFlags. No binary modification. No injection. 100% safe.
+                            Chibinator writes only to Roblox's official ClientAppSettings.json using the 18 allowlisted FastFlags. No binary modification. No injection. 100% safe. Set your FPS cap inside Roblox Settings.
                         </TextBlock>
                     </StackPanel>
                 </Border>
