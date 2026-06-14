@@ -21,6 +21,8 @@ public class FastFlagService
     /// <summary>
     /// Applies a profile's FastFlags by writing to ClientAppSettings.json.
     /// This is the ONLY way Chibinator modifies Roblox — official config file only.
+    /// Only flags on Roblox's published allowlist (as of late 2025) are written;
+    /// all others are silently ignored by the client.
     /// </summary>
     public async Task<bool> ApplyProfileAsync(Profile profile, RobloxInstallInfo installInfo)
     {
@@ -35,9 +37,6 @@ public class FastFlagService
                 var parsed = ParseFlagValue(flag.Value);
                 flagDict[flag.Key] = parsed;
             }
-
-            // Always write FPS cap
-            ApplyFpsCap(flagDict, profile.FpsCapMode);
 
             var json = JsonSerializer.Serialize(flagDict, WriteOptions);
             await File.WriteAllTextAsync(installInfo.ClientAppSettingsPath, json);
@@ -122,18 +121,6 @@ public class FastFlagService
         }
     }
 
-    private static void ApplyFpsCap(Dictionary<string, object> flagDict, FpsCapMode mode)
-    {
-        if (mode == FpsCapMode.Unlimited)
-        {
-            flagDict["DFIntTaskSchedulerTargetFps"] = 0;
-        }
-        else
-        {
-            flagDict["DFIntTaskSchedulerTargetFps"] = (int)mode;
-        }
-    }
-
     private static object ParseFlagValue(string value)
     {
         if (bool.TryParse(value, out var boolVal)) return boolVal ? "True" : "False";
@@ -151,4 +138,3 @@ internal static class FileExtensions
         await src.CopyToAsync(dst);
     }
 }
-

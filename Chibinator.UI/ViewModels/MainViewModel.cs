@@ -47,24 +47,24 @@ public class MainViewModel : ObservableObject
 
         _launchService.StatusChanged += (_, args) => LaunchStatusMessage = args.Message;
 
-        LaunchCommand        = new AsyncRelayCommand(LaunchAsync,    () => !IsLaunching && RobloxDetected && ActiveProfile != null);
-        ApplyOnlyCommand     = new AsyncRelayCommand(ApplyOnlyAsync, () => !IsLaunching && RobloxDetected && ActiveProfile != null);
-        NavigateCommand      = new RelayCommand(p => Navigate(p?.ToString() ?? "Dashboard"));
-        RefreshRobloxCommand = new AsyncRelayCommand(RefreshRobloxAsync);
+        LaunchCommand            = new AsyncRelayCommand(LaunchAsync,    () => !IsLaunching && RobloxDetected && ActiveProfile != null);
+        ApplyOnlyCommand         = new AsyncRelayCommand(ApplyOnlyAsync, () => !IsLaunching && RobloxDetected && ActiveProfile != null);
+        NavigateCommand          = new RelayCommand(p => Navigate(p?.ToString() ?? "Dashboard"));
+        RefreshRobloxCommand     = new AsyncRelayCommand(RefreshRobloxAsync);
         DismissSuggestionCommand = new RelayCommand(_ => ShowSuggestionBanner = false);
         AcceptSuggestionCommand  = new RelayCommand(_ => AcceptSuggestedPreset());
     }
 
-    public AsyncRelayCommand LaunchCommand        { get; }
-    public AsyncRelayCommand ApplyOnlyCommand     { get; }
-    public RelayCommand      NavigateCommand      { get; }
-    public AsyncRelayCommand RefreshRobloxCommand { get; }
+    public AsyncRelayCommand LaunchCommand            { get; }
+    public AsyncRelayCommand ApplyOnlyCommand         { get; }
+    public RelayCommand      NavigateCommand          { get; }
+    public AsyncRelayCommand RefreshRobloxCommand     { get; }
     public RelayCommand      DismissSuggestionCommand { get; }
     public RelayCommand      AcceptSuggestionCommand  { get; }
 
-    public bool RobloxDetected { get => _robloxDetected; set => SetProperty(ref _robloxDetected, value); }
-    public string RobloxVersion { get => _robloxVersion; set => SetProperty(ref _robloxVersion, value); }
-    public string RobloxPath    { get => _robloxPath;    set => SetProperty(ref _robloxPath, value); }
+    public bool   RobloxDetected { get => _robloxDetected; set => SetProperty(ref _robloxDetected, value); }
+    public string RobloxVersion  { get => _robloxVersion;  set => SetProperty(ref _robloxVersion, value); }
+    public string RobloxPath     { get => _robloxPath;     set => SetProperty(ref _robloxPath, value); }
 
     public Profile? ActiveProfile
     {
@@ -81,7 +81,6 @@ public class MainViewModel : ObservableObject
                 OnPropertyChanged(nameof(ActiveProfileName));
                 OnPropertyChanged(nameof(ActiveProfileDescription));
                 OnPropertyChanged(nameof(ActivePresetBadge));
-                OnPropertyChanged(nameof(FpsCap));
             }
         }
     }
@@ -89,8 +88,6 @@ public class MainViewModel : ObservableObject
     public string ActiveProfileName        => _activeProfile?.Name        ?? "No profile selected";
     public string ActiveProfileDescription => _activeProfile?.Description ?? "Select a profile to get started.";
     public string ActivePresetBadge        => _activeProfile?.PresetType.ToString() ?? "—";
-    public string FpsCap => _activeProfile?.FpsCapMode == FpsCapMode.Unlimited
-        ? "Unlimited" : $"{(int)(_activeProfile?.FpsCapMode ?? FpsCapMode.Cap60)} FPS";
 
     public string StatusMessage       { get => _statusMessage;       set => SetProperty(ref _statusMessage, value); }
     public string LaunchStatusMessage { get => _launchStatusMessage; set => SetProperty(ref _launchStatusMessage, value); }

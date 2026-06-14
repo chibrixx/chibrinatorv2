@@ -72,17 +72,6 @@ public class NullToVisibilityConverter : IValueConverter
         => throw new NotImplementedException();
 }
 
-public class FpsCapToStringConverter : IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        if (value is int fps) return fps == 0 ? "Unlimited" : $"{fps} FPS";
-        return value?.ToString() ?? "—";
-    }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        => throw new NotImplementedException();
-}
-
 public class BoolToDetectedStringConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

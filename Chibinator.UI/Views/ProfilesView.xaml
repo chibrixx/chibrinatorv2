@@ -6,7 +6,6 @@
         <converters:BoolToVisibilityConverter        x:Key="BoolToVisConverter"/>
         <converters:InverseBoolToVisibilityConverter x:Key="InvBoolToVisConverter"/>
         <converters:PresetToBadgeBrushConverter      x:Key="PresetBadgeBrush"/>
-        <converters:FpsCapToStringConverter          x:Key="FpsCapConverter"/>
     </UserControl.Resources>
 
     <Grid Margin="28,24,28,24">
@@ -79,7 +78,6 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel Grid.Column="0" VerticalAlignment="Center">
@@ -100,22 +98,14 @@
                                                Margin="0,4,0,0" TextTrimming="CharacterEllipsis"/>
                                 </StackPanel>
 
-                                <Border Grid.Column="1" Margin="12,0" Padding="8,4" CornerRadius="6"
+                                <Border Grid.Column="1" Margin="12,0,12,0" Padding="8,4" CornerRadius="6"
                                         VerticalAlignment="Center"
                                         Background="{Binding PresetType, Converter={StaticResource PresetBadgeBrush}}">
                                     <TextBlock Text="{Binding PresetType}"
                                                Foreground="White" FontSize="11" FontWeight="Bold" FontFamily="Segoe UI"/>
                                 </Border>
 
-                                <Border Grid.Column="2" Margin="0,0,12,0" Padding="8,4"
-                                        CornerRadius="6" VerticalAlignment="Center"
-                                        Background="{StaticResource BgDeepBrush}">
-                                    <TextBlock Text="{Binding FpsCapMode, Converter={StaticResource FpsCapConverter}}"
-                                               Foreground="{StaticResource AccentBrush}"
-                                               FontSize="12" FontWeight="Bold" FontFamily="Segoe UI"/>
-                                </Border>
-
-                                <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
                                     <Button Content="Export" Style="{StaticResource ButtonSecondary}"
                                             Padding="8,5" FontSize="11" Margin="0,0,6,0"
                                             Command="{Binding DataContext.ExportCommand,

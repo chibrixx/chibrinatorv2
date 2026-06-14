@@ -19,9 +19,6 @@ public class Profile
     [JsonPropertyName("flags")]
     public List<FastFlag> Flags { get; set; } = new();
 
-    [JsonPropertyName("fpsCapMode")]
-    public FpsCapMode FpsCapMode { get; set; } = FpsCapMode.Cap60;
-
     [JsonPropertyName("clearCacheOnLaunch")]
     public bool ClearCacheOnLaunch { get; set; } = false;
 
@@ -42,13 +39,4 @@ public enum PresetType
     Balanced,
     Default,
     Custom
-}
-
-public enum FpsCapMode
-{
-    Cap60 = 60,
-    Cap120 = 120,
-    Cap144 = 144,
-    Cap240 = 240,
-    Unlimited = 0
 }
