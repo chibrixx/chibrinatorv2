@@ -1,0 +1,110 @@
+<UserControl x:Class="Chibinator.UI.Views.FastFlagsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:Chibinator.UI.Converters">
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter        x:Key="BoolToVisConverter"/>
+        <converters:InverseBoolToVisibilityConverter x:Key="InvBoolToVisConverter"/>
+        <converters:NullToVisibilityConverter        x:Key="NullToVisConverter"/>
+    </UserControl.Resources>
+
+    <Grid Margin="28,24,28,24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="FastFlags" Foreground="{StaticResource TextPrimaryBrush}"
+                           FontSize="18" FontWeight="SemiBold" FontFamily="Segoe UI"/>
+                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                    <TextBlock Text="{Binding ProfileName}" Foreground="{StaticResource TextSecondaryBrush}"
+                               FontSize="12" FontFamily="Segoe UI"/>
+                    <Border Margin="8,0,0,0" Padding="6,2" CornerRadius="4" Background="#1A1A20"
+                            Visibility="{Binding IsBuiltIn, Converter={StaticResource BoolToVisConverter}}">
+                        <TextBlock Text="Read-only built-in profile" Foreground="#F59E0B"
+                                   FontSize="10" FontWeight="SemiBold" FontFamily="Segoe UI"/>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+            <Button Grid.Column="1" Content="Reset All" Style="{StaticResource ButtonSecondary}"
+                    Command="{Binding ResetAllCommand}"
+                    Visibility="{Binding IsBuiltIn, Converter={StaticResource InvBoolToVisConverter}}"/>
+        </Grid>
+
+        <!-- Filter -->
+        <Grid Grid.Row="1" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="180"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Margin="0,0,10,0"
+                     Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource DarkTextBox}"/>
+            <ComboBox Grid.Column="1" ItemsSource="{Binding Categories}"
+                      SelectedItem="{Binding SelectedCategory}"
+                      Style="{StaticResource DarkComboBox}"/>
+        </Grid>
+
+        <!-- Flag list -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding FilteredFlags}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,0,0,6" CornerRadius="8"
+                                Background="{StaticResource BgCardBrush}"
+                                BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1" Padding="14,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="90"/>
+                                </Grid.ColumnDefinitions>
+
+                                <CheckBox Grid.Column="0" Style="{StaticResource ToggleSwitch}"
+                                          IsChecked="{Binding IsEnabled}"
+                                          Margin="0,0,14,0" VerticalAlignment="Center"/>
+
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Key}" Foreground="{StaticResource AccentBrush}"
+                                               FontFamily="Consolas" FontSize="12" FontWeight="SemiBold"/>
+                                    <TextBlock Text="{Binding Description}"
+                                               Foreground="{StaticResource TextSecondaryBrush}"
+                                               FontSize="11" FontFamily="Segoe UI" Margin="0,2,0,0"/>
+                                    <TextBlock Text="{Binding SafetyNote}"
+                                               Foreground="{StaticResource TextMutedBrush}"
+                                               FontSize="10" FontFamily="Segoe UI" FontStyle="Italic" Margin="0,1,0,0"/>
+                                </StackPanel>
+
+                                <Border Grid.Column="2" Margin="10,0" Padding="8,4" CornerRadius="4"
+                                        VerticalAlignment="Center" Background="{StaticResource BgDeepBrush}"
+                                        BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                                    <TextBlock Text="{Binding Value}"
+                                               Foreground="{StaticResource TextSecondaryBrush}"
+                                               FontFamily="Consolas" FontSize="11" HorizontalAlignment="Center"/>
+                                </Border>
+
+                                <Border Grid.Column="3" Padding="8,4" CornerRadius="4"
+                                        VerticalAlignment="Center" Background="#1A1A20">
+                                    <TextBlock Text="{Binding Category}"
+                                               Foreground="{StaticResource TextMutedBrush}"
+                                               FontSize="10" FontWeight="SemiBold" FontFamily="Segoe UI"
+                                               HorizontalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

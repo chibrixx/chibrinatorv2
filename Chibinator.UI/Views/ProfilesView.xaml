@@ -1,0 +1,142 @@
+<UserControl x:Class="Chibinator.UI.Views.ProfilesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:Chibinator.UI.Converters">
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter        x:Key="BoolToVisConverter"/>
+        <converters:InverseBoolToVisibilityConverter x:Key="InvBoolToVisConverter"/>
+        <converters:PresetToBadgeBrushConverter      x:Key="PresetBadgeBrush"/>
+        <converters:FpsCapToStringConverter          x:Key="FpsCapConverter"/>
+    </UserControl.Resources>
+
+    <Grid Margin="28,24,28,24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="Profiles" Foreground="{StaticResource TextPrimaryBrush}"
+                           FontSize="18" FontWeight="SemiBold" FontFamily="Segoe UI"/>
+                <TextBlock Text="Switch, create, import and export performance profiles"
+                           Foreground="{StaticResource TextSecondaryBrush}"
+                           FontSize="13" FontFamily="Segoe UI" Margin="0,4,0,0"/>
+            </StackPanel>
+            <Button Grid.Column="1" Content="⬇  Import" Style="{StaticResource ButtonSecondary}"
+                    Margin="0,0,8,0" Command="{Binding ImportCommand}"/>
+            <Button Grid.Column="2" Content="＋  New from Active" Style="{StaticResource ButtonPrimary}"
+                    Command="{Binding CreateFromActiveCommand}"/>
+        </Grid>
+
+        <!-- New profile name input -->
+        <Border Grid.Row="1" Margin="0,0,0,16"
+                Visibility="{Binding IsCreating, Converter={StaticResource BoolToVisConverter}}"
+                Background="{StaticResource BgCardBrush}"
+                BorderBrush="{StaticResource AccentBrush}" BorderThickness="1"
+                CornerRadius="8" Padding="16,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" Style="{StaticResource DarkTextBox}"
+                         Text="{Binding NewProfileName, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0,0,10,0" VerticalAlignment="Center" FontSize="14"/>
+                <Button Grid.Column="1" Content="Save" Style="{StaticResource ButtonPrimary}"
+                        Command="{Binding ConfirmCreateCommand}" Margin="0,0,8,0"/>
+                <Button Grid.Column="2" Content="Cancel" Style="{StaticResource ButtonSecondary}"
+                        Command="{Binding CancelCreateCommand}"/>
+            </Grid>
+        </Border>
+
+        <!-- Profile list -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Profiles}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,0,0,8" CornerRadius="10"
+                                Background="{StaticResource BgCardBrush}"
+                                BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1" Padding="16,14" Cursor="Hand">
+                            <Border.InputBindings>
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding DataContext.SelectProfileCommand,
+                                              RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                              CommandParameter="{Binding}"/>
+                            </Border.InputBindings>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}"
+                                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                                   FontSize="14" FontWeight="SemiBold" FontFamily="Segoe UI"/>
+                                        <Border Margin="8,0,0,0" Padding="6,2" CornerRadius="4"
+                                                Background="#1A1A20"
+                                                Visibility="{Binding IsBuiltIn, Converter={StaticResource BoolToVisConverter}}">
+                                            <TextBlock Text="BUILT-IN" Foreground="{StaticResource TextMutedBrush}"
+                                                       FontSize="9" FontWeight="Bold" FontFamily="Segoe UI"/>
+                                        </Border>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding Description}"
+                                               Foreground="{StaticResource TextSecondaryBrush}"
+                                               FontSize="12" FontFamily="Segoe UI"
+                                               Margin="0,4,0,0" TextTrimming="CharacterEllipsis"/>
+                                </StackPanel>
+
+                                <Border Grid.Column="1" Margin="12,0" Padding="8,4" CornerRadius="6"
+                                        VerticalAlignment="Center"
+                                        Background="{Binding PresetType, Converter={StaticResource PresetBadgeBrush}}">
+                                    <TextBlock Text="{Binding PresetType}"
+                                               Foreground="White" FontSize="11" FontWeight="Bold" FontFamily="Segoe UI"/>
+                                </Border>
+
+                                <Border Grid.Column="2" Margin="0,0,12,0" Padding="8,4"
+                                        CornerRadius="6" VerticalAlignment="Center"
+                                        Background="{StaticResource BgDeepBrush}">
+                                    <TextBlock Text="{Binding FpsCapMode, Converter={StaticResource FpsCapConverter}}"
+                                               Foreground="{StaticResource AccentBrush}"
+                                               FontSize="12" FontWeight="Bold" FontFamily="Segoe UI"/>
+                                </Border>
+
+                                <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Button Content="Export" Style="{StaticResource ButtonSecondary}"
+                                            Padding="8,5" FontSize="11" Margin="0,0,6,0"
+                                            Command="{Binding DataContext.ExportCommand,
+                                            RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                            CommandParameter="{Binding}"/>
+                                    <Button Content="🗑" Style="{StaticResource ButtonSecondary}"
+                                            Padding="8,5" FontSize="11" Width="36"
+                                            Visibility="{Binding IsBuiltIn, Converter={StaticResource InvBoolToVisConverter}}"
+                                            Command="{Binding DataContext.DeleteProfileCommand,
+                                            RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                            CommandParameter="{Binding}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <TextBlock Grid.Row="3" Margin="0,12,0,0"
+                   Foreground="{StaticResource TextMutedBrush}" FontSize="11" FontFamily="Segoe UI"
+                   Text="Click a profile to activate it. Custom profiles saved in %LocalAppData%\Chibinator\Profiles\"/>
+    </Grid>
+</UserControl>
