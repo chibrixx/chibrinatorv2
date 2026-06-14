@@ -1,0 +1,166 @@
+<Window x:Class="Chibinator.UI.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:Chibinator.UI.Views"
+        Title="Chibinator — Roblox Ultra Performance Launcher"
+        Width="980" Height="660"
+        MinWidth="820" MinHeight="560"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BgDeepBrush}"
+        WindowStyle="None"
+        AllowsTransparency="True">
+
+    <Border CornerRadius="12" Background="{StaticResource BgDeepBrush}"
+            BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="44"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="32"/>
+            </Grid.RowDefinitions>
+
+            <!-- TITLE BAR -->
+            <Border Grid.Row="0" Background="{StaticResource BgSidebarBrush}"
+                    CornerRadius="12,12,0,0"
+                    MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0">
+                        <Border Width="22" Height="22" CornerRadius="6"
+                                Background="{StaticResource AccentBrush}" Margin="0,0,10,0">
+                            <TextBlock Text="C" Foreground="White" FontWeight="Bold"
+                                       FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="CHIBINATOR" Foreground="{StaticResource TextPrimaryBrush}"
+                                   FontWeight="Bold" FontSize="13" VerticalAlignment="Center" FontFamily="Segoe UI"/>
+                        <TextBlock Text="v1.0" Foreground="{StaticResource TextMutedBrush}"
+                                   FontSize="11" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,12,0">
+                        <Button Content="─" Width="32" Height="26" Click="BtnMinimize_Click"
+                                Background="Transparent" BorderThickness="0"
+                                Foreground="{StaticResource TextMutedBrush}" FontSize="11" Cursor="Hand"/>
+                        <Button x:Name="BtnCloseBtn" Content="✕" Width="32" Height="26" Click="BtnClose_Click"
+                                Background="Transparent" BorderThickness="0"
+                                Foreground="{StaticResource TextMutedBrush}" FontSize="11" Cursor="Hand"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- BODY -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- SIDEBAR -->
+                <Border Grid.Column="0" Background="{StaticResource BgSidebarBrush}"
+                        BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0">
+                    <StackPanel Margin="0,12,0,0">
+                        <Border Margin="10,0,10,16" Padding="12" CornerRadius="8"
+                                Background="{StaticResource BgCardBrush}"
+                                BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                            <StackPanel>
+                                <TextBlock Text="ACTIVE PROFILE" Foreground="{StaticResource TextMutedBrush}"
+                                           FontSize="9" FontWeight="SemiBold" FontFamily="Segoe UI" Margin="0,0,0,4"/>
+                                <TextBlock Text="{Binding ActiveProfileName}"
+                                           Foreground="{StaticResource TextPrimaryBrush}"
+                                           FontSize="12" FontWeight="SemiBold" FontFamily="Segoe UI"
+                                           TextTrimming="CharacterEllipsis"/>
+                                <TextBlock Text="{Binding FpsCap}" Foreground="{StaticResource TextMutedBrush}"
+                                           FontSize="12" FontFamily="Segoe UI" Margin="0,2,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Separator Margin="10,0,10,10"/>
+
+                        <Button Content="🏠  Dashboard" Style="{StaticResource NavButton}"
+                                HorizontalAlignment="Stretch"
+                                Command="{Binding NavigateCommand}" CommandParameter="Dashboard"/>
+                        <Button Content="📋  Profiles" Style="{StaticResource NavButton}"
+                                HorizontalAlignment="Stretch"
+                                Command="{Binding NavigateCommand}" CommandParameter="Profiles"/>
+                        <Button Content="🚩  FastFlags" Style="{StaticResource NavButton}"
+                                HorizontalAlignment="Stretch"
+                                Command="{Binding NavigateCommand}" CommandParameter="FastFlags"/>
+                        <Button Content="⚙️  Settings" Style="{StaticResource NavButton}"
+                                HorizontalAlignment="Stretch"
+                                Command="{Binding NavigateCommand}" CommandParameter="Settings"/>
+
+                        <Separator Margin="10,10"/>
+
+                        <Button Content="▶  Launch Roblox" Style="{StaticResource ButtonPrimary}"
+                                Margin="10,4" HorizontalAlignment="Stretch"
+                                Command="{Binding LaunchCommand}"
+                                IsEnabled="{Binding RobloxDetected}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- MAIN PANEL -->
+                <Grid Grid.Column="1">
+                    <views:DashboardView
+                        Visibility="{Binding ActiveNav, Converter={StaticResource NavVisConverter}, ConverterParameter=Dashboard}"/>
+                    <views:ProfilesView
+                        DataContext="{Binding ProfilesViewModel}"
+                        Visibility="{Binding DataContext.ActiveNav, Converter={StaticResource NavVisConverter}, ConverterParameter=Profiles, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    <views:FastFlagsView
+                        DataContext="{Binding FastFlagsViewModel}"
+                        Visibility="{Binding DataContext.ActiveNav, Converter={StaticResource NavVisConverter}, ConverterParameter=FastFlags, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    <views:SettingsView
+                        DataContext="{Binding SettingsViewModel}"
+                        Visibility="{Binding DataContext.ActiveNav, Converter={StaticResource NavVisConverter}, ConverterParameter=Settings, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                </Grid>
+            </Grid>
+
+            <!-- STATUS BAR -->
+            <Border Grid.Row="2" Background="{StaticResource BgSidebarBrush}"
+                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0"
+                    CornerRadius="0,0,12,12" Padding="16,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Ellipse Width="8" Height="8" VerticalAlignment="Center" Margin="0,0,6,0">
+                            <Ellipse.Fill>
+                                <SolidColorBrush Color="{Binding RobloxDetected, Converter={StaticResource BoolToColorConverter}}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource TextMutedBrush}"
+                                   FontSize="12" FontFamily="Segoe UI" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <Border Grid.Column="1" Margin="8,0" Padding="8,2" CornerRadius="4"
+                            Background="{StaticResource BgCardBrush}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Roblox " Foreground="{StaticResource TextMutedBrush}"
+                                       FontSize="11" FontFamily="Segoe UI"/>
+                            <TextBlock Text="{Binding RobloxVersion}" Foreground="{StaticResource TextMutedBrush}"
+                                       FontSize="11" FontFamily="Segoe UI"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="2" Padding="8,2" CornerRadius="4"
+                            Background="{StaticResource BgCardBrush}">
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Width="6" Height="6" VerticalAlignment="Center" Margin="0,0,5,0">
+                                <Ellipse.Fill>
+                                    <SolidColorBrush Color="{Binding ConfigApplied, Converter={StaticResource BoolToColorConverter}}"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <TextBlock Text="{Binding ConfigApplied, Converter={StaticResource BoolToAppliedTextConverter}}"
+                                       Foreground="{StaticResource TextMutedBrush}" FontSize="11" FontFamily="Segoe UI"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

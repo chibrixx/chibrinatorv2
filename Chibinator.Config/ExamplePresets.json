@@ -1,0 +1,48 @@
+{
+  "_comment": "This is an EXAMPLE of what Chibinator writes to %LOCALAPPDATA%\\Roblox\\Versions\\version-XXXX\\ClientSettings\\ClientAppSettings.json",
+  "_note": "All flags below are from Roblox's publicly known allowlist. No binary modification occurs.",
+
+  "UltraPotato_Example": {
+    "FIntRenderShadowIntensity": 0,
+    "DFFlagDebugRenderForceTechnologyVoxel": "True",
+    "DFFlagTextureQualityOverrideEnabled": "True",
+    "DFIntTextureQualityOverride": 1,
+    "FIntFRMMinGrassDistance": 0,
+    "FIntFRMMaxGrassDistance": 0,
+    "FIntRenderGrassDetailStrands": 0,
+    "FIntRenderGrassHeightScaler": 0,
+    "FFlagGlobalWindRendering": "False",
+    "FFlagGlobalWindActivated": "False",
+    "FIntRenderLocalLightUpdatesMax": 8,
+    "FIntRenderLocalLightUpdatesMin": 6,
+    "DFIntCSGLevelOfDetailSwitchingDistance": 0,
+    "DFIntCSGLevelOfDetailSwitchingDistanceL12": 0,
+    "DFIntCSGLevelOfDetailSwitchingDistanceL23": 0,
+    "DFIntCSGLevelOfDetailSwitchingDistanceL34": 0,
+    "DFIntDebugFRMQualityLevelOverride": 1,
+    "DFIntTaskSchedulerTargetFps": 0
+  },
+
+  "Competitive_Example": {
+    "FIntRenderShadowIntensity": 0,
+    "FFlagGlobalWindRendering": "False",
+    "FFlagGlobalWindActivated": "False",
+    "FIntFRMMinGrassDistance": 0,
+    "FIntFRMMaxGrassDistance": 0,
+    "DFIntDebugFRMQualityLevelOverride": 3,
+    "DFFlagTextureQualityOverrideEnabled": "True",
+    "DFIntTextureQualityOverride": 2,
+    "DFIntTaskSchedulerTargetFps": 144
+  },
+
+  "Balanced_Example": {
+    "FFlagGlobalWindRendering": "False",
+    "FFlagGlobalWindActivated": "False",
+    "FIntRenderShadowIntensity": 0,
+    "DFIntTaskSchedulerTargetFps": 60
+  },
+
+  "Default_Example": {
+    "DFIntTaskSchedulerTargetFps": 60
+  }
+}
